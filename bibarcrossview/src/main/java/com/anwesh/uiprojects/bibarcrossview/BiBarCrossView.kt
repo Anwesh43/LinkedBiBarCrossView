@@ -214,4 +214,13 @@ class BiBarCrossView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : BiBarCrossView {
+            val view : BiBarCrossView = BiBarCrossView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
