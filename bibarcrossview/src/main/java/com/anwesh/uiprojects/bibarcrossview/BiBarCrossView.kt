@@ -38,11 +38,10 @@ fun Canvas.drawBiBarCross(scale : Float, w : Float, h : Float, paint : Paint) {
     val sf2 : Float = sf.divideScale(1, parts)
     val gap : Float = Math.min(w, h) / barSizeFactor
     save()
-    translate(w / 2, h / 2)
     for (j in 0..1) {
         val xBar : Float = (w - gap) * j
         val yStart : Float = h * (1 - sf2) * j
-        val yEnd : Float = h * sf1 * (1 - j) + h * j
+        val yEnd : Float = h * sf2 * (1 - j) + h * j
         val lineYStart = h * j
         val lineYEnd = h * sf1 * (1 - j) + h * (1 - sf1) * j
         save()
