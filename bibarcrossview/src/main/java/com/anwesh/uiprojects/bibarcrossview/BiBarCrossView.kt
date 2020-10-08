@@ -31,3 +31,33 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawBiBarCross(scale : Float, w : Float, h : Float, paint : Paint) {
+    val sf : Float = scale.sinify()
+    val sf1 : Float = sf.divideScale(0, parts)
+    val sf2 : Float = sf.divideScale(1, parts)
+    val gap : Float = Math.min(w, h) / barSizeFactor
+    save()
+    translate(w / 2, h / 2)
+    for (j in 0..1) {
+        val xBar : Float = (w - gap) * j
+        val yStart : Float = h * (1 - sf2) * j
+        val yEnd : Float = h * sf1 * (1 - j) + h * j
+        val lineYStart = h * j
+        val lineYEnd = h * sf1 * (1 - j) + h * (1 - sf1) * j
+        save()
+        drawLine(gap, lineYStart, gap + (w - 2 * gap) * sf1, lineYEnd, paint)
+        drawRect(RectF(xBar, yStart, xBar + gap, yEnd), paint)
+        restore()
+    }
+    restore()
+}
+
+fun Canvas.drawBBCNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    paint.color = colors[i]
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    drawBiBarCross(scale, w, h, paint)
+}
